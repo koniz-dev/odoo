@@ -1,0 +1,83 @@
+<odoo>
+  <data>
+    <!-- List view -->
+    <record model="ir.ui.view" id="koniz_task_list_view">
+      <field name="name">koniz.task.list</field>
+      <field name="model">koniz.task</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="priority"/>
+          <field name="is_done"/>
+          <field name="date_created"/>
+        </list>
+      </field>
+    </record>
+
+    <!-- Form view -->
+    <record model="ir.ui.view" id="koniz_task_form_view">
+      <field name="name">koniz.task.form</field>
+      <field name="model">koniz.task</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group>
+                <field name="name"/>
+                <field name="priority"/>
+                <field name="is_done"/>
+              </group>
+              <group>
+                <field name="date_created"/>
+              </group>
+            </group>
+            <group>
+              <field name="description" placeholder="Enter task description..."/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Search view -->
+    <record model="ir.ui.view" id="koniz_task_search_view">
+      <field name="name">koniz.task.search</field>
+      <field name="model">koniz.task</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="description"/>
+          <filter string="Done" name="done" domain="[('is_done', '=', True)]"/>
+          <filter string="Not Done" name="not_done" domain="[('is_done', '=', False)]"/>
+          <filter string="High Priority" name="high_priority" domain="[('priority', '=', 'high')]"/>
+          <group>
+            <filter string="Priority" name="group_priority" context="{'group_by': 'priority'}"/>
+            <filter string="Status" name="group_status" context="{'group_by': 'is_done'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="koniz_task_action">
+      <field name="name">Tasks</field>
+      <field name="res_model">koniz.task</field>
+      <field name="view_mode">list,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Create your first task!
+        </p>
+        <p>
+          Keep track of your tasks and get things done.
+        </p>
+      </field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem name="Koniz" id="koniz_module.menu_root" sequence="100"/>
+    <menuitem name="Tasks" id="koniz_module.menu_tasks" 
+              parent="koniz_module.menu_root" 
+              action="koniz_task_action" 
+              sequence="10"/>
+  </data>
+</odoo>
